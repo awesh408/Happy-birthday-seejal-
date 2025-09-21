@@ -1,96 +1,192 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Birthday Surprise</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
-  <style>
-    body{
-      margin:0;
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#0f1724;
-      font-family:'Nunito',sans-serif;
-      overflow:hidden;
-      color:#fff;
-    }
-    .gift-box{
-      width:200px;
-      height:200px;
-      background:linear-gradient(180deg,#ff4da6,#ff99cc);
-      border-radius:20px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:70px;
-      cursor:pointer;
-      box-shadow:0 10px 40px rgba(0,0,0,0.6);
-      animation:bounce 2s infinite;
-      transition:transform 0.5s ease;
-    }
-    @keyframes bounce {
-      0%,100%{transform:translateY(0)}
-      50%{transform:translateY(-15px)}
-    }
-    .hidden{display:none}
-    .qr-section{
-      text-align:center;
-      animation:fadeIn 1s ease forwards;
-    }
-    .qr-section img{
-      margin-top:20px;
-      border-radius:16px;
-      transition:transform 0.3s ease;
-      cursor:pointer;
-    }
-    .qr-section img:hover{transform:scale(1.1)}
-    h1{
-      font-size:28px;
-      color:#ff99cc;
-      margin-bottom:10px;
-    }
-    @keyframes fadeIn{
-      from{opacity:0;transform:scale(0.7)}
-      to{opacity:1;transform:scale(1)}
-    }
-    canvas.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Seejal</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Share Tech Mono', monospace;
+    background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: sparkleMove linear infinite;
+  }
+
+  @keyframes sparkleMove {
+    0% { transform: translateY(0) scale(1); opacity:0;}
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh) scale(0.5); opacity:0;}
+  }
+
+  .balloon {
+    position: absolute;
+    width: 40px;
+    height: 60px;
+    background: #ff69b4;
+    border-radius: 50% 50% 50% 50%;
+    animation: rise linear infinite;
+    opacity: 0.9;
+  }
+
+  @keyframes rise {
+    0% { transform: translateY(100vh) scale(0.8); }
+    50% { transform: translateY(50vh) scale(1); }
+    100% { transform: translateY(-10vh) scale(0.8); }
+  }
+
+  .heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: pink;
+    transform: rotate(-45deg);
+    animation: floatHearts linear infinite;
+  }
+
+  .heart::before,
+  .heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: pink;
+    border-radius: 50%;
+  }
+
+  .heart::before { top: -10px; left: 0; }
+  .heart::after { left: 10px; top: 0; }
+
+  @keyframes floatHearts {
+    0% { transform: translateY(0) rotate(-45deg); opacity:0;}
+    50% { opacity:1;}
+    100% { transform: translateY(-100vh) rotate(-45deg); opacity:0;}
+  }
+
+  .container {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .gift-box {
+    width: 100px;
+    height: 100px;
+    background: #ff69b4;
+    margin: 0 auto;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    overflow: hidden;
+    transition: all 0.5s ease;
+  }
+
+  .gift-box.open {
+    height: 150px;
+    background: #ff85c1;
+  }
+
+  .lid {
+    width: 100%;
+    height: 20px;
+    background: #ff4d94;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 2px solid #fff;
+    transition: all 0.5s ease;
+    transform-origin: top;
+  }
+
+  .gift-box.open .lid {
+    transform: rotateX(180deg);
+    top: -20px;
+  }
+
+  .message {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.4em;
+    color: #fff;
+    margin-top: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .message.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+</style>
 </head>
 <body>
-  <canvas id="confettiCanvas" class="confetti"></canvas>
-  <div id="gift" class="gift-box">🎁</div>
-  <div id="qr" class="qr-section hidden">
-    <h1>✨ Scan QR Code for Surprise ✨</h1>
-    <a href="https://happy-birthday-red-three.vercel.app" target="_blank">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fhappy-birthday-red-three.vercel.app" alt="QR Code"/>
-    </a>
+
+<div class="container">
+  <div class="gift-box" id="giftBox">
+    <div class="lid"></div>
   </div>
-  <script>
-    const gift = document.getElementById('gift');
-    const qr = document.getElementById('qr');
-    const canvas = document.getElementById('confettiCanvas');
-    const ctx = canvas.getContext('2d');
-    let W = canvas.width = window.innerWidth;
-    let H = canvas.height = window.innerHeight;
-    window.addEventListener('resize', ()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight});
+  <div class="message" id="message">
+    🎉 Happy Birthday, Seejal! 🎉 May your day be filled with endless joy, laughter, and sweet moments. Wishing you happiness that blooms every day, love that warms your heart, and memories you cherish forever. Enjoy this special day and may all your dreams and wishes come true! 💖
+  </div>
+</div>
 
-    gift.addEventListener('click', ()=>{
-      gift.style.display='none';
-      qr.classList.remove('hidden');
-      launchConfetti();
-    });
+<script>
+  for(let i=0;i<50;i++){
+    const s = document.createElement('div');
+    s.classList.add('sparkle');
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.animationDuration = 2 + Math.random()*3 + 's';
+    document.body.appendChild(s);
+  }
 
-    // Confetti effect
-    const confetti = [];
-    function rand(min,max){return Math.random()*(max-min)+min}
-    function makeConfetti(n=150){for(let i=0;i<n;i++){confetti.push({x:rand(0,W),y:rand(-H,0),r:rand(6,12),vx:rand(-1,1),vy:rand(2,6),a:rand(0,2*Math.PI),color:['#ff4da6','#ff99cc','#FFD166','#FF8FAB'][Math.floor(rand(0,4))]})}}
-    function updateConfetti(){for(let p of confetti){p.x+=p.vx;p.y+=p.vy;p.a+=0.1;if(p.y>H){p.y=-10;p.x=rand(0,W)}}}
-    function drawConfetti(){ctx.clearRect(0,0,W,H);for(let p of confetti){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillStyle=p.color;ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r);ctx.restore()}}
-    function loopConfetti(){updateConfetti();drawConfetti();requestAnimationFrame(loopConfetti)}
-    function launchConfetti(){makeConfetti();loopConfetti();}
-  </script>
+  for(let i=0;i<10;i++){
+    const b = document.createElement('div');
+    b.classList.add('balloon');
+    b.style.left = Math.random()*100 + 'vw';
+    b.style.background = `hsl(${Math.random()*360}, 80%, 70%)`;
+    b.style.animationDuration = 5 + Math.random()*5 + 's';
+    document.body.appendChild(b);
+  }
+
+  for(let i=0;i<20;i++){
+    const h = document.createElement('div');
+    h.classList.add('heart');
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.animationDuration = 4 + Math.random()*4 + 's';
+    document.body.appendChild(h);
+  }
+
+  const giftBox = document.getElementById('giftBox');
+  const message = document.getElementById('message');
+
+  giftBox.addEventListener('click', ()=>{
+    giftBox.classList.toggle('open');
+    message.classList.toggle('show');
+  });
+</script>
+
 </body>
 </html>
