@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Birthday Greeting Seejal</title>
+<style>
+body{margin:0;height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ffb3d9,#ffe6f2);font-family:sans-serif;overflow:hidden;color:#fff;}
+.card-container{perspective:1200px;}
+.card{width:380px;height:480px;border-radius:25px;display:flex;align-items:center;justify-content:center;text-align:center;transform-style:preserve-3d;transition:transform 1.2s cubic-bezier(0.68,-0.55,0.27,1.55);box-shadow:0 15px 60px rgba(0,0,0,0.6);position:relative;overflow:hidden;}
+.card.open{transform:rotateY(180deg);}
+.front,.back{position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;padding:25px;box-sizing:border-box;border-radius:25px;flex-direction:column;}
+.front{background:linear-gradient(135deg,#ff4da6,#ff99cc);color:#fff;font-size:28px;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:frontPulse 2s infinite alternate;}
+.back{background:linear-gradient(135deg,#fff,#ffe6f2);color:#ff4da6;font-size:18px;font-weight:700;transform:rotateY(180deg);overflow-y:auto;box-shadow:0 5px 20px rgba(0,0,0,0.2);animation:backGlow 3s infinite alternate;}
+h1{margin:0 0 15px 0;font-size:26px;}p{line-height:1.5;}
+.decor{position:absolute;width:15px;height:15px;background:#ff99cc;border-radius:50%;animation:floatDecor 4s ease-in-out infinite;}
+.decor:nth-child(1){top:20%;left:10%;animation-delay:0s;}
+.decor:nth-child(2){top:70%;left:80%;animation-delay:1s;}
+.decor:nth-child(3){top:40%;left:50%;animation-delay:2s;}
+@keyframes frontPulse{0%{transform:scale(1)}100%{transform:scale(1.05)}}
+@keyframes backGlow{0%{box-shadow:0 5px 20px rgba(255,77,166,0.3)}100%{box-shadow:0 15px 40px rgba(255,77,166,0.6)}}
+@keyframes floatDecor{0%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(180deg)}100%{transform:translateY(0) rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="card-container">
+<div class="card" id="greetingCard">
+<div class="front">🎉 Tap to Open 🎁</div>
+<div class="back">
+<div class="decor"></div><div class="decor"></div><div class="decor"></div>
+<h1>Happy Birthday Seejal!</h1>
+<p>Happy Birthday Seejal! 🎉 May your day be filled with laughter, love, and magical moments. Wishing you endless joy, success, and unforgettable memories with family and friends. May every dream you cherish come true, and may your heart always shine with happiness. Celebrate this special day knowing you are loved and appreciated. Here’s to a year full of blessings, adventures, and beautiful surprises!</p>
+</div></div></div>
+<script>
+const card=document.getElementById('greetingCard');card.addEventListener('click',()=>{card.classList.toggle('open');});
+</script>
+</body>
+</html>
